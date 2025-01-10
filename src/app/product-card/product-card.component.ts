@@ -8,14 +8,14 @@ import { Product } from '../Model/product';
   imports: [CommonModule],
   standalone: true,
   template: `
-    <div class="product-card">
-      <h1>{{ product.name  }}</h1>
-      <p>Créé le: {{ product.createdDate | date: 'dd/MM/yyyy' }}</p>
-      @if (isFavorite){
-      <button (click)="switchFav()">⭐</button>
-      } @else {
-      <button (click)="switchFav()">☆</button>
-      }
+    <div class="bg-white rounded-lg shadow-md p-4 m-2 hover:shadow-lg transition-shadow">
+      <h1 class="text-xl font-bold text-gray-800">{{ product.name }}</h1>
+      <p class="text-sm text-gray-600">Créé le: {{ product.createdDate | date: 'dd/MM/yyyy' }}</p>
+      <button
+        class="mt-2 px-4 py-2 rounded-full bg-blue-500 text-white hover:bg-blue-600 transition-colors"
+        (click)="switchFav()">
+        {{ isFavorite ? '⭐' : '☆' }}
+      </button>
     </div>
   `,
   styles: [

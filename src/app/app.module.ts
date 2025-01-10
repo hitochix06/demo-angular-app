@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
-import { SortByDatePipe } from './product.pipe';
+import { SortByDate } from './product.pipe';
 
 @NgModule({
   imports: [
-    SortByDatePipe
+    SortByDate
   ],
 })
 export class AppModule { }
