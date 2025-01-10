@@ -6,6 +6,7 @@ import { Product } from './Model/product';
 })
 export class ProductService {
 
+
    products = [
     <Product>{id: 0,
       name: 'Harry Potter',
@@ -90,6 +91,10 @@ export class ProductService {
 
   getProduct(id: number) {
     return this.products[id];
+  }
+
+  swithFav(product: Product) {
+    product.isFavorite = !product.isFavorite;
   }
 
   constructor() { }

@@ -36,11 +36,10 @@ export class ProductCardComponent {
     isFavorite: false,
     createdDate: new Date(),
   };
-  @Output() addItemEvent = new EventEmitter<number>();
+  @Output() addItemEvent = new EventEmitter<Product>();
 isFavorite: any;
 
   switchFav() {
-    this.isFavorite = !this.isFavorite;
-    this.addItemEvent.emit(this.isFavorite ? 1 : -1);
+    this.addItemEvent.emit(this.product);
   }
 }
