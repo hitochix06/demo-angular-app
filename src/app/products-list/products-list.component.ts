@@ -6,14 +6,17 @@ import { FormsModule } from '@angular/forms';
 import { SortByDate } from '../product.pipe';
 import { Product } from '../Model/product';
 import { SortOption } from '../Model/SortOption';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-products-list',
+  standalone: true,
   imports: [
     ProductCardComponent,
     SortByDate,
     FormsModule,
     SortByNamePipe,
+    CommonModule
   ],
   template: `
     <div
