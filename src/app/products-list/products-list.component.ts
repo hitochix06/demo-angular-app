@@ -4,14 +4,12 @@ import { ProductService } from '.././product.service';
 import { ProductCardComponent } from '.././product-card/product-card.component';
 import { FormsModule } from '@angular/forms';
 import { SortByDate } from '../product.pipe';
-import { RouterOutlet } from '@angular/router';
 import { Product } from '../Model/product';
 import { SortOption } from '../Model/SortOption';
 
 @Component({
   selector: 'app-products-list',
   imports: [
-    RouterOutlet,
     ProductCardComponent,
     SortByDate,
     FormsModule,

@@ -1,16 +1,16 @@
-import { Component, inject, Input, Output, EventEmitter } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { Component } from '@angular/core';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
+
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterLink],
+  imports: [  HeaderComponent, FooterComponent],
   template: `
-    <h1>Bienvenue</h1>
-    <nav>
-      <a routerLink="/Home"></a>
-    </nav>
-    <router-outlet></router-outlet>
+    <app-header></app-header>
+
+    <app-footer></app-footer>
   `,
 })
 export class AppComponent {
