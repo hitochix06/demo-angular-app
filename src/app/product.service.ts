@@ -5,7 +5,7 @@ import { Product } from './Model/product';
   providedIn: 'root',
 })
 export class ProductService {
-  private products: Product[] = [
+  private readonly products: Product[] = [
     {
       id: 1,
       name: 'Harry Potter',

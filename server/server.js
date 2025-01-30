@@ -9,9 +9,12 @@ const port = 3000;
 app.use(cors());
 app.use(bodyParser.json());
 
+
+
 // Route exemple
-app.get('/api/test', (req, res) => {
+app.get('/products', (req, res) => {
   res.json({ message: 'Le serveur fonctionne correctement!' });
+  res.json(products)
 });
 
 // Démarrage du serveur
