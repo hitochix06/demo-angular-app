@@ -1,9 +1,7 @@
-import { Component, inject, Input, Output, EventEmitter } from '@angular/core';
-import { SortByNamePipe } from '.././sort-by-name.pipe';
+import { Component, inject } from '@angular/core';
 import { ProductService } from '.././product.service';
 import { ProductCardComponent } from '.././product-card/product-card.component';
 import { FormsModule } from '@angular/forms';
-import { SortByDate } from '../product.pipe';
 import { Product } from '../Model/product';
 import { SortOption } from '../Model/SortOption';
 import { CommonModule } from '@angular/common';
@@ -12,16 +10,12 @@ import { CommonModule } from '@angular/common';
   selector: 'app-products-list',
   standalone: true,
   imports: [
+    CommonModule,
     ProductCardComponent,
-    SortByDate,
-    FormsModule,
-    SortByNamePipe,
-    CommonModule
+    FormsModule
   ],
   template: `
-    <div
-      class="min-h-screen bg-gradient-to-br from-purple-100 to-indigo-100 p-6"
-    >
+    <div class="min-h-screen bg-gradient-to-br from-purple-100 to-indigo-100 p-6">
       <div class="max-w-7xl mx-auto">
         <!-- Header -->
         <header class="text-center mb-12">
@@ -49,24 +43,13 @@ import { CommonModule } from '@angular/common';
         </div>
 
         <!-- Products Grid -->
-        <div
-          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
-        >
-          @if (selectedSort === 'date-asc' || selectedSort === 'date-desc') {
-          @for (product of products | sortByDate:(selectedSort === 'date-asc');
-          track product.id) {
-          <app-product-card
-            [product]="product"
-            (addItemEvent)="switchFav(product)"
-          />
-          } } @if (selectedSort === 'name-asc' || selectedSort === 'name-desc')
-          { @for (product of products | sortByName:(selectedSort ===
-          'name-asc'); track product.id) {
-          <app-product-card
-            [product]="product"
-            (addItemEvent)="switchFav(product)"
-          />
-          } }
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          @for (product of getFilteredProducts(); track product.id) {
+            <app-product-card
+              [product]="product"
+              (addItemEvent)="switchFav(product)"
+            />
+          }
         </div>
       </div>
     </div>
@@ -76,16 +59,9 @@ export class ProductsListComponent {
   title = 'Personnages de Harry Potter';
   countFav = 0;
   selectedSort = 'date-asc';
-  @Input({ required: true }) product: Product = {
-    id: 0,
-    name: '',
-    isFavorite: false,
-    createdDate: new Date(),
-  };
-  @Output() addItemEvent = new EventEmitter<number>();
 
   productService = inject(ProductService);
-  products = this.productService.products;
+  products = this.productService.getProducts();
 
   sortOptions: SortOption[] = [
     { id: 'date-asc', label: 'Date (plus ancien)' },
@@ -93,6 +69,26 @@ export class ProductsListComponent {
     { id: 'name-asc', label: 'Nom (A-Z)' },
     { id: 'name-desc', label: 'Nom (Z-A)' },
   ];
+
+  ngOnInit() {
+    // Initialiser le compteur de favoris au chargement
+    this.countFav = this.products.filter(product => product.isFavorite).length;
+  }
+
+  getFilteredProducts(): Product[] {
+    console.log('Produits disponibles:', this.products); // Ajouter ce log pour debug
+    if (this.selectedSort.startsWith('date')) {
+      return [...this.products].sort((a, b) => {
+        const multiplier = this.selectedSort === 'date-asc' ? 1 : -1;
+        return multiplier * (a.createdDate.getTime() - b.createdDate.getTime());
+      });
+    } else {
+      return [...this.products].sort((a, b) => {
+        const multiplier = this.selectedSort === 'name-asc' ? 1 : -1;
+        return multiplier * a.name.localeCompare(b.name);
+      });
+    }
+  }
 
   switchFav(product: Product) {
     product.isFavorite = !product.isFavorite;
