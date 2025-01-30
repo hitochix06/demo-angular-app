@@ -1,9 +1,9 @@
-import { NgModule } from '@angular/core';
-import { SortByDate } from './product.pipe';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { AppComponent } from './app.component';
 
-@NgModule({
-  imports: [
-    SortByDate
-  ],
-})
-export class AppModule { }
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideHttpClient(withInterceptorsFromDi())
+  ]
+});

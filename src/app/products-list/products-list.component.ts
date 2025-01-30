@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ProductService } from '.././product.service';
 import { ProductCardComponent } from '.././product-card/product-card.component';
 import { FormsModule } from '@angular/forms';
@@ -55,13 +55,13 @@ import { CommonModule } from '@angular/common';
     </div>
   `,
 })
-export class ProductsListComponent {
+export class ProductsListComponent implements OnInit {
   title = 'Personnages de Harry Potter';
   countFav = 0;
   selectedSort = 'date-asc';
 
   productService = inject(ProductService);
-  products = this.productService.getProducts();
+  products: Product[] = [];
 
   sortOptions: SortOption[] = [
     { id: 'date-asc', label: 'Date (plus ancien)' },
@@ -71,8 +71,11 @@ export class ProductsListComponent {
   ];
 
   ngOnInit() {
-    // Initialiser le compteur de favoris au chargement
-    this.countFav = this.products.filter(product => product.isFavorite).length;
+    this.productService.getProducts().subscribe(products => {
+      this.products = products;
+      // Initialiser le compteur de favoris au chargement
+      this.countFav = this.products.filter((product: Product) => product.isFavorite).length;
+    });
   }
 
   getFilteredProducts(): Product[] {

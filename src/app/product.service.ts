@@ -1,46 +1,27 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Product } from './Model/product';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
-  private readonly products: Product[] = [
-    {
-      id: 1,
-      name: 'Harry Potter',
-      isFavorite: false,
-      createdDate: new Date('2024-01-01'),
-    },
-    {
-      id: 2,
-      name: 'Hermione Granger',
-      isFavorite: false,
-      createdDate: new Date('2024-01-02'),
-    },
-    {
-      id: 3,
-      name: 'Ron Weasley',
-      isFavorite: false,
-      createdDate: new Date('2024-01-03'),
-    },
-    {
-      id: 4,
-      name: 'Albus Dumbledore',
-      isFavorite: false,
-      createdDate: new Date('2024-01-04'),
-    },
-  ];
+  private readonly apiUrl = 'http://localhost:3000';
 
-  getProducts(): Product[] {
-    return this.products;
+  constructor(private readonly http: HttpClient) {}
+
+  getProducts(): Observable<Product[]> {
+    return this.http.get<Product[]>(`${this.apiUrl}/products`);
   }
 
-  getProduct(id: number) {
-    return this.products.find((p) => p.id === id);
+  getProduct(id: number): Observable<Product> {
+    return this.http.get<Product>(`${this.apiUrl}/products/${id}`);
   }
 
-  swithFav(product: Product) {
-    product.isFavorite = !product.isFavorite;
+  switchFav(product: Product): Observable<Product> {
+    return this.http.patch<Product>(`${this.apiUrl}/products/${product.id}`, {
+      isFavorite: !product.isFavorite
+    });
   }
 }
