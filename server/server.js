@@ -120,7 +120,14 @@ app.patch('/products/:id', (req, res) => {
   res.json(product);
 });
 
+
 // Démarrage du serveur
 app.listen(port, () => {
   console.log(`Serveur démarré sur http://localhost:${port}`);
 });
+
+
+
+
+
+
